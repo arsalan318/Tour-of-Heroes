@@ -12,7 +12,7 @@ const app = express();
 
 //Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(bodyParser.json());
 
 app.use('/api', require('./routes/api/heroes'));
 
