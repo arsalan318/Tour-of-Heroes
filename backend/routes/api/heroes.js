@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/heroes', (req, res) => {
   const {name} = req.body;
-  con.query(`INSERT INTO hero (name) VALUES ('${name}')`, function (err, result, fields) {
+  con.query(`INSERT INTO Hero (name) VALUES ('${name}')`, function (err, result, fields) {
     if (err)
       res.json({ msg: err.message });
     res.json(result)
@@ -17,7 +17,7 @@ router.post('/heroes', (req, res) => {
 //get all heroes
 
 router.get('/heroes', (req, res) => {
-  con.query("SELECT * FROM hero", function (err, result, fields) {
+  con.query("SELECT * FROM Hero", function (err, result, fields) {
     if (err)
       res.json({ msg: err.message });
     res.json(result)
@@ -29,7 +29,7 @@ router.get('/heroes', (req, res) => {
 
 router.get('/heroes/:id', (req, res) => {
   let id = req.params.id
-  con.query(`SELECT * FROM hero Where id=${id}`, function (err, hero, fields) {
+  con.query(`SELECT * FROM Hero Where id=${id}`, function (err, hero, fields) {
     if (err)
       res.json({ msg: err.message });;
     res.json(hero)
@@ -41,7 +41,7 @@ router.get('/heroes/:id', (req, res) => {
 
 router.delete('/heroes/:id', (req, res) => {
   let id = req.params.id
-  con.query(`DELETE FROM hero Where id=${id}`, function (err, hero, fields) {
+  con.query(`DELETE FROM Hero Where id=${id}`, function (err, hero, fields) {
     if (err)
       res.json({ msg: err.message });;
     res.json(hero)
@@ -54,7 +54,7 @@ router.delete('/heroes/:id', (req, res) => {
 router.put('/heroes/:id', (req, res) => {
   let id = req.params.id
   const {name}=req.body
-  con.query(`UPDATE hero SET name = '${name}' WHERE id = '${id}'`, function (err, hero) {
+  con.query(`UPDATE Hero SET name = '${name}' WHERE id = '${id}'`, function (err, hero) {
     if (err)
       res.json({ msg: err.message });;
     res.json(hero)
