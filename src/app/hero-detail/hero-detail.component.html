@@ -1,13 +1,60 @@
-<div *ngIf="hero">
-
-    <h2>{{hero.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{hero[0].id}}</div>
-    <div>
-        <label>name:
-            <input [(ngModel)]="hero[0].name" placeholder="name" />
+<div *ngIf="hero" class="detailBody">
+  <div class="row">
+    <div class="col m-2">
+      <h2>{{ hero[0].name | uppercase }} Details</h2>
+      <div><span>id: </span>{{ hero[0].id }}</div>
+      <div>
+        <label
+          >name:
+          <input [(ngModel)]="hero[0].name" placeholder="name" />
         </label>
+      </div>
+      <button class="formButton" (click)="goBack()">go back</button>
+      <button class="formButton" (click)="save()">save</button>
+      <h2>{{ hero[0].name | uppercase }} Powers</h2>
     </div>
-    <button (click)="goBack()">go back</button>
-    <button (click)="save()">save</button>
+    <div class="col m-2">
+      <h2>Add Powers</h2>
 
+      <div class="btn-group mr-2">
+        <button
+          type="button"
+          class="btn btn-primary dropdown-toggle"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Powers
+        </button>
+        <div class="dropdown-menu">
+          <div
+            class="dropdown-item"
+            *ngFor="let power of powers"
+            (click)="onSelectPower(power)"
+          >
+            {{ power.name }}
+          </div>
+        </div>
+      </div>
+      <ul class="list-group" *ngIf="selectedPowers">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center listItem mt-2"
+          *ngFor="let power of selectedPowers"
+        >
+          {{ power.name }}
+
+          <button
+            class="btn btn-outline-danger bt-sm"
+            title="delete power"
+            (click)="delete(power)"
+          >
+            x
+          </button>
+        </li>
+      </ul>
+      <div class="text-center mt-4" *ngIf="selectedPowers.length > 0">
+        <button class="btn btn-success">Set Powers</button>
+      </div>
+    </div>
+  </div>
 </div>

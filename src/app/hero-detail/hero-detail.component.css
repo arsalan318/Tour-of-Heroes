@@ -11,7 +11,7 @@ label {
     font-size: 1em;
     padding-left: .4em;
   }
-  button {
+  .formButton {
     margin-top: 20px;
     font-family: Arial;
     background-color: #eee;
@@ -21,11 +21,33 @@ label {
     cursor: pointer;
     cursor: hand;
   }
-  button:hover {
+  .formButton:hover {
     background-color: #cfd8dc;
   }
-  button:disabled {
+  .formButton:disabled {
     background-color: #eee;
     color: #ccc;
     cursor: auto;
   }
+  .detailBody{
+    padding:10px;
+  }
+  .list {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 15em;
+  }
+  .listItem {
+    position: relative;
+    cursor: pointer;
+    background-color: #EEE;
+    border-radius: 4px;
+  }
+  
+  .listItem:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+  }
+  

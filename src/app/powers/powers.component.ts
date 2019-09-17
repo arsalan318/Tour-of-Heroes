@@ -13,10 +13,10 @@ export class PowersComponent implements OnInit {
   constructor(private powerService: PowerService) { }
 
   ngOnInit() {
-    this.getHeroes();
+    this.getPowers();
   }
   
-  getHeroes(): void {
+  getPowers(): void {
     this.powerService.getPowers()
       .subscribe(powers =>{ 
         this.powers = powers;
@@ -28,7 +28,7 @@ export class PowersComponent implements OnInit {
     this.powerService.addPower({ name } as Power)
       .subscribe(hero => {
         this.powers.push(hero);
-        this.getHeroes();
+        this.getPowers();
       });
   }
 
