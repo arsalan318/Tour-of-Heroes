@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
 app.use('/api', require('./routes/api/heroes'));
+app.use('/api', require('./routes/api/powers'));
 
 const PORT =8080;
 
