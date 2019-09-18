@@ -11,7 +11,7 @@
 
   <ul class="powers">
     <li *ngFor="let power of powers">
-      <a routerLink="/details/{{ power.id }}">
+      <a routerLink="/power/detail/{{ power.id }}">
         <span class="badge">{{ power.id }}</span> {{ power.name }}
       </a>
       <button class="delete" title="delete power" (click)="delete(power)">

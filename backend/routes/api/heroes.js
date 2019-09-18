@@ -62,4 +62,35 @@ router.put('/heroes/:id', (req, res) => {
   });
 })
 
+//Add Power To Hero
+router.post('/heroes/power',(req,res)=>{
+  const {powerId,heroId}=req.body;
+  con.query(`INSERT INTO heroPowers (heroId,powerId) VALUES ('${heroId}','${powerId}')`, function (err, result, fields) {
+    if (err)
+      res.json({ msg: err.message });
+    res.json(result)
+  });  
+})
+
+
+//Get Powers Of Hero
+router.get('/heroes/powers/:id',(req,res)=>{
+  const {id}=req.params;
+  con.query(`SELECT powerId FROM heroPowers Where heroId='${id}'`,
+   function (err, result, fields) {
+    if (err)
+      res.json({ msg: err.message });
+    res.json(result)
+  });  
+})
+router.delete('/heroes/powers/:heroId/:powerId', (req, res) => {
+  let {heroId,powerId} = req.params
+  con.query(`DELETE FROM heroPowers Where heroId=${heroId} and powerId=${powerId}`, function (err, hero, fields) {
+    if (err)
+      res.json({ msg: err.message });;
+    res.json(hero)
+
+  });
+})
+
 module.exports = router;

@@ -67,6 +67,24 @@ export class HeroService {
       catchError(this.handleError<Hero[]>('searchHeroes', []))
     );
   }
+  addHeroPower(heroPowerId: any): Observable<any> {
+    return this.http.post<any>(`${this.heroesUrl}/power`, heroPowerId, this.httpOptions).pipe(
+      tap((newHero: any) => this.log(`Hero Power Add`)),
+      catchError(this.handleError<any>('addHero'))
+    );
+  }
+  getHeroPowers(heroId: any): Observable<any> {
+    return this.http.get<any>(`${this.heroesUrl}/powers/${heroId}`).pipe(
+      tap((newHero: any) => this.log(`Hero PowersId fetched`)),
+      catchError(this.handleError<any>('fetchHeroPowers'))
+    );
+  }
+  deleteHeroPowers(heroId: any,powerId:any): Observable<any> {
+    return this.http.delete<any>(`${this.heroesUrl}/powers/${heroId}/${powerId}`).pipe(
+      tap((newHero: any) => this.log(`Hero power Deleted`)),
+      catchError(this.handleError<any>('herPowerDeleteError'))
+    );
+  }
 
   private heroesUrl = 'http://localhost:8080/api/heroes';
 
