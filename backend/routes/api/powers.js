@@ -61,5 +61,13 @@ router.put('/powers/:id', (req, res) => {
 
   });
 })
+router.get('/power/hero/:id', (req, res) => {
+  let id = req.params.id
+  con.query(`SELECT heroId FROM heroPowers Where powerId=${id}`, function (err, power, fields) {
+    if (err)
+      res.json({ msg: err.message });;
+    res.json(power)
+  });
+})
 
 module.exports = router;

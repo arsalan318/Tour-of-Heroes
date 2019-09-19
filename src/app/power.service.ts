@@ -67,6 +67,13 @@ export class PowerService {
       catchError(this.handleError<Power[]>('searchpoweres', []))
     );
   }
+  assignedHeroes(id: number): Observable<any> {
+    const url = `http://localhost:8080/api/power/hero/${id}`;
+      return this.http.get<any>(url).pipe(
+      tap(_ => this.log(`fetched Assigned Heroes id=${id}`)),
+      catchError(this.handleError<any>(`assignedHeroes id=${id}`))
+    );
+  }
 
   private powersUrl = 'http://localhost:8080/api/powers';
 

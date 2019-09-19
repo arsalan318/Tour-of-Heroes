@@ -74,9 +74,6 @@ export class HeroDetailComponent implements OnInit {
   
   
   fetchHeroPowers():void{
-    console.log("In Fetch Hero Power")
-    console.log("Selected Powers",this.selectedPowers);
-    console.log("Hero's Powers",this.heroPowers);
 
     let powerIdsArray:any=[]
     this.heroService.getHeroPowers(this.hero.id)
