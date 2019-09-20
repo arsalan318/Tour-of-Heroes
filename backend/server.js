@@ -23,6 +23,9 @@ app.use(cors(corsOptions));
 
 app.use('/api', require('./routes/api/heroes'));
 app.use('/api', require('./routes/api/powers'));
+app.use('/api', require('./routes/api/city'));
+app.use('/api', require('./routes/api/costume'));
+
 
 const PORT =8080;
 

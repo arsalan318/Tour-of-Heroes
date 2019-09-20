@@ -1,0 +1,22 @@
+<h2>All Costumes</h2>
+<div>
+  <label
+    >Costume name:
+    <input #costumeName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="add(costumeName.value); costumeName.value = ''">
+    add
+  </button>
+
+  <ul class="costumes">
+    <li *ngFor="let costume of costumes">
+      <a routerLink="/costume/details/{{ costume.costumeId }}">
+        <span class="badge">{{ costume.costumeId }}</span> {{ costume.name }}
+      </a>
+      <button class="delete" title="delete costume" (click)="delete(costume)">
+        x
+      </button>
+    </li>
+  </ul>
+</div>
