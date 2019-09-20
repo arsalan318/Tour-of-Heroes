@@ -8,77 +8,140 @@
           >name:
           <input [(ngModel)]="hero.name" placeholder="name" />
         </label>
+        <p>
+          City: <span *ngIf="!heroCity">No City Assigned Yet</span>
+        </p>
       </div>
+      <span>What Do You Want To Update </span>
+      <select #selectOption (click)="onOptionSelect(selectOption.value)">
+        <option  value="Power">Power</option>
+        <option  value="City">City</option>
+        <option  value="Costume">Costume</option
+        >
+      </select><br>
       <button class="formButton" (click)="goBack()">go back</button>
       <button class="formButton" (click)="save()">save</button>
     </div>
+    <div>
+      
+    </div>
     <div class="col m-2">
-      <h2>Add Powers</h2>
+      <div *ngIf="updateOption === 'Power'">
+        <h2>Add Powers</h2>
 
-      <div class="btn-group mr-2">
-        <button
-          type="button"
-          class="btn btn-primary dropdown-toggle"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Powers
-        </button>
-        <div class="dropdown-menu">
-          <div
-            class="dropdown-item"
-            *ngFor="let power of powers"
-            (click)="onSelectPower(power)"
+        <div class="btn-group mr-2">
+          <button
+            type="button"
+            class="btn btn-primary dropdown-toggle"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            id="powersMenu"
           >
-            {{ power.name }}
+            Powers
+          </button>
+          <div class="dropdown-menu" aria-labelledby="powersMenu">
+            <div
+              class="dropdown-item"
+              *ngFor="let power of powers"
+              (click)="onSelectPower(power)"
+            >
+              {{ power.name }}
+            </div>
           </div>
         </div>
-      </div>
-      <ul class="list-group" *ngIf="selectedPowers">
-        <li
-          class="list-group-item d-flex justify-content-between align-items-center listItem mt-2"
-          *ngFor="let power of selectedPowers"
-        >
-          {{ power.name }}
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button
-              class="btn btn-outline-danger bt-sm"
-              title="delete power"
-              (click)="onDeletePower(power)"
-            >
-              x
-            </button>
-            <button 
-            class="btn btn-outline-success bt-sm" 
-            title="Add power"
-            (click)="onPowerAdd(power.id,hero.id)"
-            >
-              +
-            </button>
-          </div>
-        </li>
-      </ul>
-        <hr>
-        <h2 *ngIf="heroPowers">{{ hero.name | uppercase }} Power</h2>
-        <ul class="list-group" *ngIf="heroPowers">
+        <ul class="list-group" *ngIf="selectedPowers">
           <li
             class="list-group-item d-flex justify-content-between align-items-center listItem mt-2"
-            *ngFor="let power of heroPowers">
-            <span>{{ power.name }}</span>
+            *ngFor="let power of selectedPowers"
+          >
+            {{ power.name }}
             <div class="btn-group" role="group" aria-label="Basic example">
               <button
                 class="btn btn-outline-danger bt-sm"
                 title="delete power"
-                (click)="onDeleteHeroPower(power.id)"
+                (click)="onDeletePower(power)"
               >
                 x
+              </button>
+              <button
+                class="btn btn-outline-success bt-sm"
+                title="Add power"
+                (click)="onPowerAdd(power.id, hero.id)"
+              >
+                +
               </button>
             </div>
           </li>
         </ul>
-
-
+      </div>
+      <div *ngIf="updateOption === 'City'">
+          <h2>Change City</h2>
+  
+          <div class="btn-group mr-2">
+            <button
+              type="button"
+              class="btn btn-primary dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              id="cityMenu"
+            >
+              Cities
+            </button>
+            <div class="dropdown-menu" aria-labelledby="cityMenu">
+              <div
+                class="dropdown-item"
+                *ngFor="let city of cities"
+              >
+                {{ city.name }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="updateOption === 'Costume'">
+            <h2>Change Costume</h2>
+    
+            <div class="btn-group mr-2">
+              <button
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                id="costumeMenu"
+              >
+                Costumes
+              </button>
+              <div class="dropdown-menu" aria-labelledby="costumeMenu">
+                <div
+                  class="dropdown-item"
+                  *ngFor="let costume of costumes"
+                >
+                  {{ costume.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+      <hr />
+      <h2 *ngIf="heroPowers">{{ hero.name | uppercase }} Power</h2>
+      <ul class="list-group" *ngIf="heroPowers">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center listItem mt-2"
+          *ngFor="let power of heroPowers"
+        >
+          <span>{{ power.name }}</span>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button
+              class="btn btn-outline-danger bt-sm"
+              title="delete power"
+              (click)="onDeleteHeroPower(power.id)"
+            >
+              x
+            </button>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

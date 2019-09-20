@@ -89,7 +89,6 @@ router.delete('/heroes/powers/:heroId/:powerId', (req, res) => {
     if (err)
       res.json({ msg: err.message });;
     res.json(hero)
-
   });
 })
 

@@ -67,6 +67,27 @@ export class CityService {
       catchError(this.handleError<City[]>('searchpoweres', []))
     );
   }
+
+  addHeroCity(hid,cid){
+    const ids ={
+      hid,
+      cid
+    }
+    const url=`${this.cityUrl}/addHero`
+    return this.http.post<City>(url,ids,this.httpOptions).pipe(
+      tap((newCity: City) => this.log(`added City w/ id=${newCity.cityId}`)),
+      catchError(this.handleError<City>('addCity'))
+    );
+  }
+
+  fetchUnAssignedCities(){
+    let url=`${this.cityUrl}/hero`
+    return this.http.get<City[]>(url)
+      .pipe(
+        tap(_ => this.log('fetched Cities')),
+        catchError(this.handleError<City[]>('getCities', []))
+      );
+  }
  
   private cityUrl = 'http://localhost:8080/api/cities';
 
