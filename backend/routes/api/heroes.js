@@ -92,4 +92,16 @@ router.delete('/heroes/powers/:heroId/:powerId', (req, res) => {
   });
 })
 
+//Get Hero City
+router.get('/heroes/city/:cid',(req,res)=>{
+  const {cid}=req.params;
+  con.query(`select * from City where cityId=${cid}`,
+   function (err, result, fields) {
+    if (err)
+      res.json({ msg: err.message });
+    res.json(result)
+  });  
+})
+
+
 module.exports = router;

@@ -26,6 +26,7 @@ export class HeroDetailComponent implements OnInit {
   cities:City[];
   heroCity:City;
   costumes:Costume[]
+  heroCostume:Costume;
 
   onOptionSelect(option):void{
     this.updateOption=option
@@ -39,16 +40,28 @@ export class HeroDetailComponent implements OnInit {
       });    
   }
 
-  getHero(): void {
+  getHero(flag): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.heroService.getHero(id)
       .subscribe(hero =>{ 
         this.hero = hero[0]
-        this.fetchHeroPowers();
-        this.getCities();
-        this.getCostumes();
+        console.log(this.hero.cityId)
+        if(flag==='none'){
+          this.fetchHeroPowers();
+          this.getCities();
+          this.getCostumes();
+        
+        if(this.hero.cityId!==null){
+          this.getHeroCity(this.hero.cityId)
+        }
+        }
+        if(flag==='city'){
+          this.getCities();
+          this.getHeroCity(this.hero.cityId);          
+        }
       })
   }
+
   onSelectPower(power):void{
     let index=this.heroPowers.findIndex((obj)=>{
       return obj.id===power.id
@@ -131,8 +144,32 @@ export class HeroDetailComponent implements OnInit {
       });
   }
 
-  onCityAdd(cid):void{
-    this.cityService.addHeroCity(this.hero.id,cid);
+  onCityAdd(cid):void{ 
+    console.log("Current City Id ",cid);
+    console.log("Previous City Id ",this.hero.cityId);
+    this.cityService.addHeroCity(this.hero.id,cid,this.hero.cityId)
+    .subscribe(result=>{
+      console.log(result);
+      this.getHeroCity(cid);
+      this.getHero('city');
+    })
+    ;
+  }
+  getHeroCity(cid){
+    this.heroService.heroCity(cid)
+    .subscribe(city=>{
+      this.heroCity=city[0];
+      console.log(this.heroCity)
+    })
+  }
+  onCityRemove():void{
+    this.cityService.removeHeroCity(this.hero.id,this.hero.cityId)
+    .subscribe(result=>{
+      console.log(result);
+      this.heroCity=null;
+      this.getHero('city');
+    })
+    ;
   }
 
   save(): void {
@@ -150,7 +187,7 @@ export class HeroDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(){
-      this.getHero();
+      this.getHero('none');
       this.getPowers();
       this.fetchHeroPowers();
         }

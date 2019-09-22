@@ -3,6 +3,47 @@ const express = require('express')
 const router = express.Router();
 
 
+//Add Hero
+router.put('/cities/addHero', (req, res) => {
+  const {hid,cid,pcid}=req.body
+  console.log(hid,cid,pcid)
+  con.query(`UPDATE City SET heroId='${hid}' where cityId='${cid}'`, function (err, result, fields) {    
+  if (err)
+      res.json({ msg: err.message });
+    else{
+      con.query(`UPDATE Hero SET cityId='${cid}' where id='${hid}'`, function (err, result, fields) {
+        if (err)
+          res.json({ msg: err.message });
+        else{
+          if(pcid){
+            con.query(`UPDATE City SET heroId=NULL where cityId='${pcid}'`, function (err, result, fields) {
+              if (err)
+                res.json({ msg: err.message });
+              res.json(result)
+            })
+          }
+        }
+      });
+    }
+  });
+})
+//Add Hero
+router.put('/cities/removeHero', (req, res) => {
+  const {hid,cid}=req.body
+  con.query(`UPDATE Hero SET cityId=NULL where id='${hid}'`, function (err, result, fields) {
+    if (err)
+      res.json({ msg: err.message });
+    else{
+      con.query(`UPDATE City SET heroId=NULL where cityId='${cid}'`, function (err, result, fields) {
+        if (err)
+          res.json({ msg: err.message });
+        res.json(result)
+      });
+    }
+  });
+})
+
+
 //Add city
 
 router.post('/cities', (req, res) => {
@@ -21,22 +62,6 @@ router.get('/cities', (req, res) => {
     if (err)
     res.json({ msg: err.message });
     res.json(result)
-  });
-})
-//Add Hero
-router.post('/cities/addHero', (req, res) => {
-  console.log(req.body);
-  const {hid,cid}=req.body
-  con.query(`INSERT INTO Hero (cityId) VALUES ('${cid}')`, function (err, result, fields) {
-    if (err)
-      res.json({ msg: err.message });
-    else{
-      con.query(`INSERT INTO City (heroId) VALUES ('${hid}')`, function (err, result, fields) {
-        if (err)
-          res.json({ msg: err.message });
-        res.json(result)
-      });
-    }
   });
 })
 //UnAssigned City

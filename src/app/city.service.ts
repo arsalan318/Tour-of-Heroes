@@ -68,15 +68,20 @@ export class CityService {
     );
   }
 
-  addHeroCity(hid,cid){
-    const ids ={
-      hid,
-      cid
-    }
+  addHeroCity(hid,cid,pcid){
+    
     const url=`${this.cityUrl}/addHero`
-    return this.http.post<City>(url,ids,this.httpOptions).pipe(
-      tap((newCity: City) => this.log(`added City w/ id=${newCity.cityId}`)),
-      catchError(this.handleError<City>('addCity'))
+    return this.http.put<any>(url,{hid,cid,pcid},this.httpOptions).pipe(
+      tap((newCity: any) => this.log(`added City`)),
+      catchError(this.handleError<any>('addCity'))
+    );
+  }
+  removeHeroCity(hid,cid){
+    
+    const url=`${this.cityUrl}/removeHero`
+    return this.http.put<any>(url,{hid,cid},this.httpOptions).pipe(
+      tap((newCity: any) => this.log(`added City`)),
+      catchError(this.handleError<any>('addCity'))
     );
   }
 

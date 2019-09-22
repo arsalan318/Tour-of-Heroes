@@ -9,7 +9,7 @@
           <input [(ngModel)]="hero.name" placeholder="name" />
         </label>
         <p>
-          City: <span *ngIf="!heroCity">No City Assigned Yet</span>
+          City: <span *ngIf="!heroCity">No City Assigned Yet</span><span *ngIf="heroCity">{{heroCity.name}}</span>
         </p>
       </div>
       <span>What Do You Want To Update </span>
@@ -92,7 +92,14 @@
             <div class="dropdown-menu" aria-labelledby="cityMenu">
               <div
                 class="dropdown-item"
+                (click)="onCityRemove()"
+              >
+                Remove City
+              </div>
+              <div
+                class="dropdown-item"
                 *ngFor="let city of cities"
+                (click)="onCityAdd(city.cityId)"
               >
                 {{ city.name }}
               </div>

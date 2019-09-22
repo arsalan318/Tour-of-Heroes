@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { City } from './city';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,14 @@ export class HeroService {
       catchError(this.handleError<any>('updateHero'))
     );
   }
+  heroCity(cid){
+    const url=`${this.heroesUrl}/city/${cid}`
+      return this.http.get<City>(url).pipe(
+      tap(_ => this.log(`fetched Hero City id=${cid}`)),
+      catchError(this.handleError<City>(`getHeroCity id=${cid}`))
+    );
+  }
+    
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
