@@ -9,7 +9,10 @@
           <input [(ngModel)]="hero.name" placeholder="name" />
         </label>
         <p>
-          City: <span *ngIf="!heroCity">No City Assigned Yet</span><span *ngIf="heroCity">{{heroCity.name}}</span>
+          <b>City: </b><span *ngIf="!heroCity">No City Assigned Yet</span><span *ngIf="heroCity">{{heroCity.name}}</span>
+        </p>
+        <p>
+          <b>Costume: </b><span *ngIf="!heroCostume">No Costume Assigned Yet</span><span *ngIf="heroCostume">{{heroCostume.name}}</span>
         </p>
       </div>
       <span>What Do You Want To Update </span>
@@ -122,8 +125,15 @@
               </button>
               <div class="dropdown-menu" aria-labelledby="costumeMenu">
                 <div
+                class="dropdown-item"
+                (click)="removeHeroCostume()"
+              >
+                Remove Costume
+              </div>
+                <div
                   class="dropdown-item"
                   *ngFor="let costume of costumes"
+                  (click)="addHeroCostume(costume.costumeId)"
                 >
                   {{ costume.name }}
                 </div>

@@ -36,7 +36,7 @@ export class HeroDetailComponent implements OnInit {
     this.cityService.fetchUnAssignedCities()
       .subscribe(cities =>{ 
         this.cities = cities;
-        console.log(cities);
+        this.getHeroCity(this.hero.cityId);                  
       });    
   }
 
@@ -45,19 +45,22 @@ export class HeroDetailComponent implements OnInit {
     this.heroService.getHero(id)
       .subscribe(hero =>{ 
         this.hero = hero[0]
-        console.log(this.hero.cityId)
+        console.log(this.hero)
         if(flag==='none'){
           this.fetchHeroPowers();
           this.getCities();
           this.getCostumes();
         
-        if(this.hero.cityId!==null){
-          this.getHeroCity(this.hero.cityId)
+        if(this.hero.costumeId!==null){
+          this.getHeroCostume(this.hero.costumeId)
         }
         }
         if(flag==='city'){
           this.getCities();
-          this.getHeroCity(this.hero.cityId);          
+        }
+        if(flag==='costume'){
+          this.getHeroCostume(this.hero.costumeId)
+          this.getCostumes();
         }
       })
   }
@@ -75,7 +78,6 @@ export class HeroDetailComponent implements OnInit {
     else{
       alert("This Power is Already Added To The Hero")
     }
-  
   }
   onDeletePower(power):void{
     this.selectedPowers=this.selectedPowers.filter(p=>{
@@ -134,6 +136,12 @@ export class HeroDetailComponent implements OnInit {
     this.costumeService.getCostumes()
       .subscribe(costumes =>{ 
         this.costumes = costumes;
+        if(this.hero.cityId!==null){
+          this.costumes=this.costumes.filter(costume=>{
+            return  costume.costumeId!==this.heroCostume.costumeId
+          })
+        }
+        
       });    
   }
   onDeleteHeroPower(powerId):void{
@@ -149,7 +157,6 @@ export class HeroDetailComponent implements OnInit {
     console.log("Previous City Id ",this.hero.cityId);
     this.cityService.addHeroCity(this.hero.id,cid,this.hero.cityId)
     .subscribe(result=>{
-      console.log(result);
       this.getHeroCity(cid);
       this.getHero('city');
     })
@@ -167,9 +174,29 @@ export class HeroDetailComponent implements OnInit {
     .subscribe(result=>{
       console.log(result);
       this.heroCity=null;
-      this.getHero('city');
+      this.getHero('none');
     })
     ;
+  }
+  addHeroCostume(cid){
+    this.costumeService.addHeroCostume(cid,this.hero.id)
+    .subscribe(result=>{
+      this.getHero('costume');
+    })
+  }
+  getHeroCostume(cid): void {
+    this.costumeService.getCostume(cid)
+      .subscribe(costume =>{ 
+        this.heroCostume = costume[0]
+        console.log(this.heroCostume)
+      })
+  }
+  removeHeroCostume(){
+    this.costumeService.removeHeroCostume(this.hero.id)
+    .subscribe(result=>{
+      this.heroCostume=null
+      this.getHero('none');
+    })
   }
 
   save(): void {
@@ -190,7 +217,7 @@ export class HeroDetailComponent implements OnInit {
       this.getHero('none');
       this.getPowers();
       this.fetchHeroPowers();
-        }
+    }
 
   goBack(): void {
     this.location.back();

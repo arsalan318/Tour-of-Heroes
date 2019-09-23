@@ -41,10 +41,26 @@ router.get('/heroes/:id', (req, res) => {
 
 router.delete('/heroes/:id', (req, res) => {
   let id = req.params.id
-  con.query(`DELETE FROM Hero Where id=${id}`, function (err, hero, fields) {
+  con.query(`UPDATE City SET heroId = NULL WHERE heroId = '${id}'`, function (err, result, fields) {
     if (err)
-      res.json({ msg: err.message });;
-    res.json(hero)
+      res.json({ msg: err.message });
+    else{
+      con.query(`DELETE FROM heroPowers Where id=${id}`, function (err, result, fields) {
+        if (err)
+          res.json({ msg: err.message });
+        else{
+          con.query(`DELETE FROM Hero Where id=${id}`, function (err, result, fields) {
+            if (err)
+              res.json({ msg: err.message });
+            else{
+              res.json({msg:"Hero Atlast Deleted"})
+            }
+        
+          });
+        }
+    
+      });      
+    }
 
   });
 })

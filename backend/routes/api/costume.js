@@ -13,6 +13,39 @@ router.post('/costume', (req, res) => {
     res.json(result)
   });
 })
+//Get Assigned Hero
+router.get('/costume/assignedHero/:cid', (req, res) => {
+  const {cid}=req.params;
+  con.query(`SELECT * FROM Hero where costumeId=${cid}`, function (err, result) {
+    if (err)
+    res.json({ msg: err.message });
+    res.json(result)
+  });
+})
+
+
+//Add hero costume
+router.put('/costume/hero', (req, res) => {
+  console.log(req.body)
+  const {hid,cid}=req.body
+  con.query(`UPDATE Hero SET costumeId = '${cid}' WHERE id = '${hid}'`, function (err, costume) {
+    if (err)
+      res.json({ msg: err.message });;
+    res.json(costume)
+
+  });
+})
+
+//Remove Costume
+router.put('/costume/hero/remove', (req, res) => {
+  const {hid}=req.body
+  con.query(`UPDATE Hero SET costumeId = NULL WHERE id = '${hid}'`, function (err, costume) {
+    if (err)
+      res.json({ msg: err.message });;
+    res.json(costume)
+
+  });
+})
 
 //get all costumes
 

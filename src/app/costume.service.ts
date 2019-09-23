@@ -55,8 +55,30 @@ export class CostumeService {
       catchError(this.handleError<Costume>('deleteCostume'))
     );
   }
+  //Add Hero Costume
 
+  addHeroCostume(cid,hid): Observable<any> {
+    return this.http.put(`${this.costumeUrl}/hero`,{cid,hid}, this.httpOptions).pipe(
+      tap(_ => this.log(`hero Costume added costume id=${cid}`)),
+      catchError(this.handleError<any>('addHeroCostume'))
+    );
+  }
+  removeHeroCostume(hid): Observable<any> {
+    return this.http.put(`${this.costumeUrl}/hero/remove`,{hid}, this.httpOptions).pipe(
+      tap(_ => this.log(`hero Costume removed`)),
+      catchError(this.handleError<any>('removeHeroCostume'))
+    );
+  }
  
+  //Get Assigned Heroes
+  assignedHeroes(cid: number): Observable<any> {
+    const url = `${this.costumeUrl}/assignedHero/${cid}`;
+      return this.http.get<any>(url).pipe(
+      tap(_ => this.log(`fetched Assigned Heroes id=${cid}`)),
+      catchError(this.handleError<any>(`assignedHeroes id=${cid}`))
+    );
+  }
+
   private costumeUrl = 'http://localhost:8080/api/costume';
 
   private log(message: string) {

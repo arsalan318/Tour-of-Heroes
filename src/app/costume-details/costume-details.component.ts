@@ -3,6 +3,7 @@ import {Costume} from '../costume';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {CostumeService} from '../costume.service';
+import { Hero } from '../hero';
 
 
 @Component({
@@ -12,15 +13,23 @@ import {CostumeService} from '../costume.service';
 })
 export class CostumeDetailsComponent implements OnInit {
   costume:Costume;
-  
-  getCity(): void {
+  assignedHeroes:Hero[]
+  getCostume(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.costumeService.getCostume(id)
       .subscribe(costume =>{ 
         this.costume = costume[0]
-        console.log(costume)
+        this.getAssignedHeroes();
       })
   }
+
+  getAssignedHeroes(){
+    this.costumeService.assignedHeroes(this.costume.costumeId)
+    .subscribe(heroes=>{
+      this.assignedHeroes=heroes
+    })
+  }
+
   save(): void {
     this.costumeService.updateCostume(this.costume)
       .subscribe(() => this.goBack());
@@ -35,7 +44,7 @@ export class CostumeDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCity();
+    this.getCostume();
   }
 
 }

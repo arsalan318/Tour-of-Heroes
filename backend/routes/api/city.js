@@ -42,7 +42,15 @@ router.put('/cities/removeHero', (req, res) => {
     }
   });
 })
-
+//Get Assigned Hero
+router.get('/cities/assignedHero/:cid', (req, res) => {
+  const {cid}=req.params;
+  con.query(`SELECT * FROM Hero where cityId=${cid}`, function (err, result) {
+    if (err)
+    res.json({ msg: err.message });
+    res.json(result)
+  });
+})
 
 //Add city
 

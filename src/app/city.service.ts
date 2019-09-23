@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { Hero } from './hero';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,14 @@ export class CityService {
         catchError(this.handleError<City[]>('getCities', []))
       );
   }
+  assignedHeroes(cid: number): Observable<any> {
+    const url = `http://localhost:8080/api/cities/assignedHero/${cid}`;
+      return this.http.get<any>(url).pipe(
+      tap(_ => this.log(`fetched Assigned Heroes id=${cid}`)),
+      catchError(this.handleError<any>(`assignedHeroes id=${cid}`))
+    );
+  }
+
  
   private cityUrl = 'http://localhost:8080/api/cities';
 
