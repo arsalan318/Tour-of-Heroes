@@ -22,6 +22,9 @@ router.put('/cities/addHero', (req, res) => {
               res.json(result)
             })
           }
+          else{
+            res.json(result)
+          }
         }
       });
     }
@@ -97,10 +100,19 @@ router.get('/cities/:id', (req, res) => {
 
 router.delete('/cities/:id', (req, res) => {
   let id = req.params.id
-  con.query(`DELETE FROM City Where cityId=${id}`, function (err, city, fields) {
+
+  con.query(`UPDATE Hero SET cityId = NULL WHERE cityId = '${id}'`, function (err, city, fields) {
     if (err)
-      res.json({ msg: err.message });;
-    res.json(city)
+      res.json({ msg: err.message });
+    else{
+      con.query(`DELETE FROM City Where cityId=${id}`, function (err, city, fields) {
+        if (err)
+          res.json({ msg: err.message });;
+          res.json({ msg: 'City Deleted' });
+
+    
+      });
+    }
 
   });
 })
@@ -112,7 +124,7 @@ router.put('/cities/:id', (req, res) => {
   const {name}=req.body
   con.query(`UPDATE City SET name = '${name}' WHERE cityId = '${id}'`, function (err, city) {
     if (err)
-      res.json({ msg: err.message });;
+      res.json({ msg: err.message });
     res.json(city)
 
   });

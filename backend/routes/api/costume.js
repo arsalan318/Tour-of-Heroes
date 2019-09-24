@@ -30,7 +30,7 @@ router.put('/costume/hero', (req, res) => {
   const {hid,cid}=req.body
   con.query(`UPDATE Hero SET costumeId = '${cid}' WHERE id = '${hid}'`, function (err, costume) {
     if (err)
-      res.json({ msg: err.message });;
+      res.json({ msg: err.message });
     res.json(costume)
 
   });
@@ -41,7 +41,7 @@ router.put('/costume/hero/remove', (req, res) => {
   const {hid}=req.body
   con.query(`UPDATE Hero SET costumeId = NULL WHERE id = '${hid}'`, function (err, costume) {
     if (err)
-      res.json({ msg: err.message });;
+      res.json({ msg: err.message });
     res.json(costume)
 
   });
@@ -64,7 +64,7 @@ router.get('/costume/:id', (req, res) => {
   let id = req.params.id
   con.query(`SELECT * FROM Costume Where costumeId=${id}`, function (err, costume, fields) {
     if (err)
-      res.json({ msg: err.message });;
+      res.json({ msg: err.message });
     res.json(costume)
 
   });
@@ -74,10 +74,19 @@ router.get('/costume/:id', (req, res) => {
 
 router.delete('/costume/:id', (req, res) => {
   let id = req.params.id
-  con.query(`DELETE FROM Costume Where costumeId=${id}`, function (err, costume, fields) {
+  con.query(`UPDATE Hero SET costumeId = NULL WHERE costumeId = '${id}'`, function (err, costume, fields) {
     if (err)
-      res.json({ msg: err.message });;
-    res.json(costume)
+      res.json({ msg: err.message });
+    else{
+      con.query(`DELETE FROM Costume Where costumeId=${id}`, function (err, costume, fields) {
+        if (err)
+          res.json({ msg: err.message });
+        else{
+          res.json({ msg: 'costume Deleted' });
+        }
+    
+      });    
+    }
 
   });
 })
@@ -89,7 +98,7 @@ router.put('/costume/:id', (req, res) => {
   const {name}=req.body
   con.query(`UPDATE Costume SET name = '${name}' WHERE costumeId = '${id}'`, function (err, costume) {
     if (err)
-      res.json({ msg: err.message });;
+      res.json({ msg: err.message });
     res.json(costume)
 
   });

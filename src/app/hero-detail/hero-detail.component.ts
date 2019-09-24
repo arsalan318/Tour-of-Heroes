@@ -45,7 +45,6 @@ export class HeroDetailComponent implements OnInit {
     this.heroService.getHero(id)
       .subscribe(hero =>{ 
         this.hero = hero[0]
-        console.log(this.hero)
         if(flag==='none'){
           this.fetchHeroPowers();
           this.getCities();
@@ -153,12 +152,9 @@ export class HeroDetailComponent implements OnInit {
   }
 
   onCityAdd(cid):void{ 
-    console.log("Current City Id ",cid);
-    console.log("Previous City Id ",this.hero.cityId);
     this.cityService.addHeroCity(this.hero.id,cid,this.hero.cityId)
     .subscribe(result=>{
-      this.getHeroCity(cid);
-      this.getHero('city');
+      this.getHero('none');
     })
     ;
   }
@@ -166,15 +162,13 @@ export class HeroDetailComponent implements OnInit {
     this.heroService.heroCity(cid)
     .subscribe(city=>{
       this.heroCity=city[0];
-      console.log(this.heroCity)
     })
   }
   onCityRemove():void{
     this.cityService.removeHeroCity(this.hero.id,this.hero.cityId)
     .subscribe(result=>{
-      console.log(result);
+      this.getHero('city');
       this.heroCity=null;
-      this.getHero('none');
     })
     ;
   }
@@ -188,7 +182,6 @@ export class HeroDetailComponent implements OnInit {
     this.costumeService.getCostume(cid)
       .subscribe(costume =>{ 
         this.heroCostume = costume[0]
-        console.log(this.heroCostume)
       })
   }
   removeHeroCostume(){
